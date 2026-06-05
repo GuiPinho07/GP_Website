@@ -62,7 +62,7 @@ function Header() {
             <LinkedInIcon />
           </a>
           <a
-            href="https://github.com/[o-teu-username]"
+            href="https://github.com/GuiPinho07"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-surface-100 dark:hover:bg-dark-800 transition-all duration-200"

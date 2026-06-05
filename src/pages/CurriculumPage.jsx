@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    src/pages/CurriculumPage.jsx — Página do Currículo
    ═══════════════════════════════════════════════════════════════ */
-import TimelineItem from '../components/TimelineItem.jsx'
+// import TimelineItem from '../components/TimelineItem.jsx' 
 import SkillMatrix  from '../components/SkillMatrix.jsx'
 import { useScrollReveal } from '../hooks/useScrollReveal.js'
 import { useTranslation } from '../contexts/LanguageContext.jsx'
@@ -13,7 +13,7 @@ const DEGREES = [
   {
     degreeKey: 'curriculum.degree.leic.title',
     institutionKey: 'curriculum.degree.leic.institution',
-    dates: '20XX — 20XX',
+    datesKey: 'curriculum.degree.leic.dates', 
     gpaKey: 'curriculum.degree.leic.gpa',
   }
 ]
@@ -44,7 +44,7 @@ const SKILL_CATEGORIES = [
   {
     titleKey: 'curriculum.skills.technical',
     icon: '⚙️',
-    skills: ['React', 'TypeScript', 'Node.js', 'Java', 'C', 'SQL'],
+    skills: ['React', 'TypeScript', 'Node.js', 'JavaScript', 'Java', 'C', 'C#', 'Python', 'SQL'],
     colorClass: 'bg-accent-50 dark:bg-dark-700 text-accent-700 dark:text-accent-300 border border-accent-100 dark:border-dark-600',
   },
   {
@@ -128,26 +128,28 @@ export default function CurriculumPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="mb-8">
           <div>
             <h3 className="font-display font-semibold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-accent-500 rounded-full inline-block" />
               {t('curriculum.heading_degrees')}
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 max-w-2xl">
               {DEGREES.map((d, idx) => (
                 <DegreeCard 
                   key={idx}
                   degree={t(d.degreeKey)}
                   institution={t(d.institutionKey)}
-                  dates={d.dates}
+                  dates={t(d.datesKey)}
                   gpa={t(d.gpaKey)}
                 />
               ))}
             </div>
           </div>
 
-          <div>
+          {/* Secção Conquistas oculta */}
+          {/*
+          <div className="mt-8">
             <h3 className="font-display font-semibold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-accent-500 rounded-full inline-block" />
               {t('curriculum.heading_achievements')}
@@ -163,8 +165,11 @@ export default function CurriculumPage() {
               ))}
             </div>
           </div>
+          */}
         </div>
 
+        {/* Secção Certificações oculta */}
+        {/*
         <div>
           <h3 className="font-display font-semibold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <span className="w-1 h-6 bg-accent-500 rounded-full inline-block" />
@@ -180,9 +185,11 @@ export default function CurriculumPage() {
             ))}
           </div>
         </div>
+        */}
       </section>
 
-      {/* ── SECÇÃO 2: EXPERIÊNCIA PROFISSIONAL ── */}
+      {/* ── SECÇÃO 2: EXPERIÊNCIA PROFISSIONAL (Oculta temporariamente) ── */}
+      {/*
       <section aria-labelledby="profissional-titulo">
         <SectionHeader
           eyebrow={t('curriculum.eyebrow_experience')}
@@ -202,6 +209,7 @@ export default function CurriculumPage() {
           ))}
         </div>
       </section>
+      */}
 
       {/* ── SECÇÃO 3: MATRIZ DE COMPETÊNCIAS ── */}
       <section aria-labelledby="competencias-titulo">
@@ -210,13 +218,14 @@ export default function CurriculumPage() {
           title={t('curriculum.title_skills')}
           subtitle={t('curriculum.subtitle_skills')}
         />
-        {/* Passa as categorias mapeadas para traduzir o título e skills estáticas */}
-        <SkillMatrix categories={SKILL_CATEGORIES.map(cat => ({
-          ...cat,
-          title: t(cat.titleKey),
-          // Se as skills contêm 'curriculum.', traduzimos, senão usamos o nome da skill (ex: React, Java)
-          skills: cat.skills.map(skill => skill.startsWith('curriculum.') ? t(skill) : skill)
-        }))} />
+        
+        <SkillMatrix 
+          categories={SKILL_CATEGORIES.map(cat => ({
+            ...cat,
+            title: t(cat.titleKey),
+            skills: cat.skills.map(skill => skill.startsWith('curriculum.') ? t(skill) : skill)
+          }))} 
+        />
       </section>
 
     </div>

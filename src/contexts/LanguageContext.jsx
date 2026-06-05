@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 // Language context provides current language and a toggle function
 const LanguageContext = createContext({
   language: 'pt', // default Portuguese
-  toggleLanguage: () => {}
+  toggleLanguage: () => { }
 });
 
 export const LanguageProvider = ({ children }) => {
@@ -92,8 +92,8 @@ export const translations = {
     "curriculum.eyebrow_formation": "Formação",
     "curriculum.title_academic": "Percurso Académico",
     "curriculum.subtitle_academic": "A minha base de engenharia e investigação.",
-    "curriculum.academic_narrative.p1": "A minha jornada começou na FEUP, onde descobri a minha paixão por Engenharia de Software. Durante a minha Licenciatura...",
-    "curriculum.academic_narrative.p2": "Aprofundei os meus conhecimentos com foco no desenvolvimento de soluções escaláveis e arquitetura de software...",
+"curriculum.academic_narrative.p1": "A minha jornada começou na Faculdade de Engenharia da Universidade do Porto (FEUP), onde estudo Engenharia Informática e Computação. Durante o meu percurso académico, desenvolvi uma base sólida em resolução de problemas e engenharia de software, trabalhando em projetos práticos e diversos — desde o desenvolvimento de sistemas de baixo nível em C até à criação de aplicações web completas.",
+    "curriculum.academic_narrative.p2": "Atualmente, continuo a aprofundar os meus conhecimentos com foco em arquiteturas escaláveis e design centrado no utilizador. O trabalho colaborativo em metodologias ágeis tem sido essencial para perceber a importância de um código limpo e de uma boa comunicação. O meu objetivo é continuar a crescer tecnicamente, unindo o rigor da engenharia ao impacto real dos produtos que construo.",
     "curriculum.heading_degrees": "Graus Académicos",
     "curriculum.heading_achievements": "Conquistas",
     "curriculum.heading_certifications": "Certificações",
@@ -105,7 +105,8 @@ export const translations = {
     "curriculum.subtitle_skills": "O meu arsenal técnico e interpessoal.",
     "curriculum.degree.leic.title": "Licenciatura em Engenharia Informática e Computação",
     "curriculum.degree.leic.institution": "Faculdade de Engenharia da Universidade do Porto (FEUP)",
-    "curriculum.degree.leic.gpa": "Média: XX",
+    "curriculum.degree.leic.dates": "2024 — Presente",
+    "curriculum.degree.leic.gpa": "Média: 13.5",
     "curriculum.achievements.1": "[Prémio ou distinção académica relevante]",
     "curriculum.achievements.2": "Publicação em [Nome da Conferência/Revista]",
     "curriculum.exp.1.company": "[Nome da Empresa Atual]",
@@ -120,7 +121,7 @@ export const translations = {
     "curriculum.skills.soft.problem_solving": "Resolução de problemas",
     "curriculum.skills.soft.communication": "Comunicação"
   },
-  
+
   en: {
     // ── NAVBAR / GLOBAL ──
     curriculum: 'Curriculum',
@@ -164,7 +165,7 @@ export const translations = {
     "contact.form.name_label": "Name",
     "contact.form.name_placeholder": "Your full name",
     "contact.form.email_label": "Email",
-    "contact.form.email_placeholder": "your@email.com",
+    "contact.form.email_placeholder": "[EMAIL_ADDRESS]",
     "contact.form.message_label": "Message",
     "contact.form.message_placeholder": "Describe your project, idea or question...",
     "contact.form.message_hint": "Minimum of 10 characters",
@@ -181,8 +182,8 @@ export const translations = {
     "curriculum.eyebrow_formation": "Education",
     "curriculum.title_academic": "Academic Background",
     "curriculum.subtitle_academic": "My engineering and research foundation.",
-    "curriculum.academic_narrative.p1": "My journey started at FEUP, where I discovered my passion for Software Engineering. During my Bachelor's...",
-    "curriculum.academic_narrative.p2": "I deepened my knowledge focusing on developing scalable solutions and software architecture...",
+"curriculum.academic_narrative.p1": "My journey began at the Faculty of Engineering of the University of Porto (FEUP), where I am pursuing a degree in Informatics and Computing Engineering. Throughout my academic path, I have built a strong foundation in problem-solving and software development, working on diverse hands-on projects—ranging from low-level systems programming in C to full-stack web applications.",
+    "curriculum.academic_narrative.p2": "Currently, I am deepening my expertise with a focus on scalable architectures and user-centric design. Collaborating within agile environments has taught me the immense value of clean code and effective communication. My goal is to keep growing technically, bridging the rigor of engineering with the real-world impact of the products I build.",
     "curriculum.heading_degrees": "Academic Degrees",
     "curriculum.heading_achievements": "Achievements",
     "curriculum.heading_certifications": "Certifications",
@@ -192,9 +193,10 @@ export const translations = {
     "curriculum.eyebrow_skills": "Skills",
     "curriculum.title_skills": "Skills Matrix",
     "curriculum.subtitle_skills": "My technical and interpersonal arsenal.",
-    "curriculum.degree.leic.title": "Bachelor in Software Engineering",
+    "curriculum.degree.leic.title": "Bachelor in Informatics and Computing Engineering",
     "curriculum.degree.leic.institution": "Faculty of Engineering of the University of Porto (FEUP)",
-    "curriculum.degree.leic.gpa": "GPA: XX",
+    "curriculum.degree.leic.dates": "2024 — Present",
+    "curriculum.degree.leic.gpa": "GPA: 13.5",
     "curriculum.achievements.1": "[Relevant academic award or distinction]",
     "curriculum.achievements.2": "Publication in [Conference/Journal Name]",
     "curriculum.exp.1.company": "[Current Company Name]",

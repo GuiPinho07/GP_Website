@@ -146,10 +146,10 @@ export default function ContactPage() {
           />
 
           <ContactCard
-            href="mailto:oteuemail@exemplo.com"
+            href="mailto:gui@ferreirapinho.net"
             icon={<EmailIcon className="w-6 h-6 text-accent-600 dark:text-accent-400" />}
             label="Email"
-            sublabel="oteuemail@exemplo.com"
+            sublabel="gui@ferreirapinho.net"
             colorClass="border-accent-100 dark:border-accent-900/30"
             ariaLabel={t('contact.aria_email')}
           />

@@ -1,0 +1,37 @@
+# ── DEPENDÊNCIAS ──
+node_modules/
+.pnp
+.pnp.js
+
+# ── BUILD E CÓDIGO GERADO ──
+dist/
+dist-ssr/
+build/
+coverage/
+
+# ── VARIÁVEIS DE AMBIENTE (CRÍTICO) ──
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── LOGS DE ERRO ──
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── SISTEMA OPERATIVO ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── EDITORES DE CÓDIGO (IDE) ──
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
