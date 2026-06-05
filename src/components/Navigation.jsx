@@ -72,7 +72,7 @@ export default function Navigation() {
                         absolute bottom-1 left-4 right-4 h-0.5 rounded-full
                         bg-accent-500 dark:bg-accent-400
                         transition-all duration-300 origin-left
-                        ${isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'}
+                        ${isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100'}
                       `}
                     />
                   </>
