@@ -1,14 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    src/pages/ContactPage.jsx — Página de Contactos
-   ═══════════════════════════════════════════════════════════════
-
-   Estrutura:
-   1. Título e convite
-   2. Cartões de contacto (LinkedIn + Email)
-   3. Formulário de contacto com validação frontend
    ═══════════════════════════════════════════════════════════════ */
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal.js'
+import { useTranslation } from '../contexts/LanguageContext.jsx'
 
 /* ─────────────────────────────────────────────────────────────
    ÍCONES SVG INLINE
@@ -37,107 +32,80 @@ function SendIcon({ className }) {
   )
 }
 
-/* ─────────────────────────────────────────────────────────────
-   COMPONENTE: CartãoDeContacto
-   Um cartão clicável que leva a um link externo (LinkedIn ou email)
-   ───────────────────────────────────────────────────────────── */
-function ContactCard({ href, icon, label, sublabel, colorClass }) {
+function ContactCard({ href, icon, label, sublabel, colorClass, ariaLabel }) {
   return (
     <a
       href={href}
       target={href.startsWith('mailto') ? '_self' : '_blank'}
       rel="noopener noreferrer"
-      className={`
-        group card-hover p-6 flex items-center gap-4 reveal
-        border-2 hover:border-current
-        ${colorClass}
-      `}
-      aria-label={`Contactar via ${label}`}
+      className={`group card-hover p-6 flex items-center gap-4 reveal border-2 hover:border-current ${colorClass}`}
+      aria-label={ariaLabel}
     >
-      {/* Ícone com fundo circular */}
       <div className="w-12 h-12 rounded-xl bg-white/60 dark:bg-dark-900/40 flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
         {icon}
       </div>
-
       <div className="flex-1 min-w-0">
         <p className="font-display font-semibold text-slate-900 dark:text-white">{label}</p>
         <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{sublabel}</p>
       </div>
-
-      {/* Seta animada no hover */}
-      <span className="text-slate-400 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
-        →
-      </span>
+      <span className="text-slate-400 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
     </a>
   )
 }
 
 /* ─────────────────────────────────────────────────────────────
-   COMPONENTE PRINCIPAL DA PÁGINA
+   COMPONENTE PRINCIPAL
    ───────────────────────────────────────────────────────────── */
 export default function ContactPage() {
+  const { t } = useTranslation()
   useScrollReveal()
 
-  /*
-   * Estado do formulário:
-   * - fields: valores dos campos (nome, email, mensagem)
-   * - errors: mensagens de erro de validação por campo
-   * - submitted: controla se o formulário foi enviado com sucesso
-   * - submitting: controla o estado de loading do botão
-   */
   const [fields, setFields] = useState({ nome: '', email: '', mensagem: '' })
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  /* ── Atualiza um campo individualmente ── */
   const handleChange = (e) => {
     const { name, value } = e.target
     setFields((prev) => ({ ...prev, [name]: value }))
-    // Remove o erro do campo quando o utilizador começa a escrever
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
   }
 
-  /* ── Validação dos campos ── */
   const validate = () => {
     const newErrors = {}
 
     if (!fields.nome.trim()) {
-      newErrors.nome = 'O nome é obrigatório.'
+      newErrors.nome = t('contact.form.errors.name_required')
     }
 
     if (!fields.email.trim()) {
-      newErrors.email = 'O email é obrigatório.'
+      newErrors.email = t('contact.form.errors.email_required')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-      // Expressão regular simples para validar formato de email
-      newErrors.email = 'Introduz um endereço de email válido.'
+      newErrors.email = t('contact.form.errors.email_invalid')
     }
 
     if (!fields.mensagem.trim()) {
-      newErrors.mensagem = 'A mensagem não pode estar vazia.'
+      newErrors.mensagem = t('contact.form.errors.message_empty')
     } else if (fields.mensagem.trim().length < 10) {
-      newErrors.mensagem = 'A mensagem deve ter pelo menos 10 caracteres.'
+      newErrors.mensagem = t('contact.form.errors.message_short')
     }
 
     return newErrors
   }
 
-  /* ── Submissão do formulário ── */
   const handleSubmit = async (e) => {
-    e.preventDefault() // Previne o reload da página
-
+    e.preventDefault()
     const validationErrors = validate()
+    
     if (Object.keys(validationErrors).length > 0) {
-      // Há erros: mostra-os e para aqui
       setErrors(validationErrors)
       return
     }
 
-    // Simula o envio (em produção, aqui chamarias a tua API ou serviço)
     setSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 1500)) // delay artificial
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     setSubmitting(false)
     setSubmitted(true)
   }
@@ -148,85 +116,71 @@ export default function ContactPage() {
       {/* ── Cabeçalho ── */}
       <div className="max-w-2xl mb-12 reveal">
         <span className="text-xs font-semibold tracking-widest text-accent-500 uppercase">
-          Entra em contacto
+          {t('contact.eyebrow')}
         </span>
-        {/* h1 — única na página, importante para SEO */}
         <h1 className="font-display font-bold text-4xl sm:text-5xl text-slate-900 dark:text-white mt-1 mb-4">
-          Vamos{' '}
-          <span className="text-gradient">conversar</span>
+          {t('contact.title_start')}{' '}
+          <span className="text-gradient">{t('contact.title_gradient')}</span>
           <span className="text-accent-500">.</span>
         </h1>
         <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-          {/*
-           * SUBSTITUIR: Personaliza este texto de convite.
-           * Podes mencionar o tipo de projetos que procuras, a tua disponibilidade, etc.
-           */}
-          Estou sempre aberto a novas oportunidades, colaborações criativas ou simplesmente a uma boa
-          conversa sobre tecnologia e design. Se tens um projeto em mente ou quiseres trocar ideias,
-          não hesites em entrar em contacto — respondo sempre!
+          {t('contact.subtitle')}
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
 
-        {/* ════════════════════════════════════════════════════
-            COLUNA ESQUERDA: Métodos de contacto direto
-            ════════════════════════════════════════════════════ */}
+        {/* ── COLUNA ESQUERDA ── */}
         <div className="lg:col-span-2 space-y-4">
           <h2 className="font-display font-semibold text-lg text-slate-900 dark:text-white mb-5 reveal">
-            Métodos de Contacto
+            {t('contact.methods_title')}
           </h2>
 
-          {/* Cartão LinkedIn */}
           <ContactCard
             href="https://linkedin.com/in/guilhermefpinho"
             icon={<LinkedInIcon className="w-6 h-6 text-[#0A66C2]" />}
             label="LinkedIn"
             sublabel="linkedin.com/in/guilhermefpinho"
             colorClass="border-blue-100 dark:border-blue-900/30"
+            ariaLabel={t('contact.aria_linkedin')}
           />
 
-          {/* Cartão Email */}
           <ContactCard
-            href="mailto:[o-teu-email@exemplo.com]"
+            href="mailto:oteuemail@exemplo.com"
             icon={<EmailIcon className="w-6 h-6 text-accent-600 dark:text-accent-400" />}
             label="Email"
-            sublabel="[o-teu-email@exemplo.com]"
+            sublabel="oteuemail@exemplo.com"
             colorClass="border-accent-100 dark:border-accent-900/30"
+            ariaLabel={t('contact.aria_email')}
           />
 
-          {/* Mensagem informal adicional */}
           <div className="card p-5 reveal">
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Tempo de resposta:</span>{' '}
-              Normalmente respondo dentro de 24–48 horas. Para assuntos urgentes, o LinkedIn é o mais rápido. 🚀
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
+                {t('contact.response_time_label')}
+              </span>{' '}
+              {t('contact.response_time_desc')}
             </p>
           </div>
         </div>
 
-        {/* ════════════════════════════════════════════════════
-            COLUNA DIREITA: Formulário de contacto
-            ════════════════════════════════════════════════════ */}
+        {/* ── COLUNA DIREITA ── */}
         <div className="lg:col-span-3">
           <h2 className="font-display font-semibold text-lg text-slate-900 dark:text-white mb-5 reveal">
-            Enviar Mensagem
+            {t('contact.form_title')}
           </h2>
 
-          {/* ── Estado: Formulário Enviado com Sucesso ── */}
           {submitted ? (
             <div className="card p-8 text-center reveal">
-              {/* Ícone de sucesso animado */}
               <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4 text-3xl">
                 ✅
               </div>
               <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-2">
-                Mensagem enviada!
+                {t('contact.success_title')}
               </h3>
               <p className="text-slate-500 dark:text-slate-400 mb-6">
-                Obrigado pelo contacto, <strong className="text-slate-700 dark:text-slate-300">{fields.nome}</strong>!
-                Responderei o mais brevemente possível.
+                {t('contact.success_message_part1')} <strong className="text-slate-700 dark:text-slate-300">{fields.nome}</strong>{t('contact.success_message_part2')}
               </p>
-              {/* Botão para enviar outra mensagem */}
               <button
                 onClick={() => {
                   setSubmitted(false)
@@ -234,140 +188,76 @@ export default function ContactPage() {
                 }}
                 className="btn-secondary"
               >
-                Enviar outra mensagem
+                {t('contact.button_send_another')}
               </button>
             </div>
           ) : (
-            /* ── Formulário ── */
-            <form
-              onSubmit={handleSubmit}
-              noValidate /* Usamos a nossa própria validação JS */
-              className="card p-6 sm:p-8 space-y-5 reveal"
-              aria-label="Formulário de contacto"
-            >
-
-              {/* Campo: Nome */}
+            <form onSubmit={handleSubmit} noValidate className="card p-6 sm:p-8 space-y-5 reveal">
+              {/* Campo Nome */}
               <div>
-                <label
-                  htmlFor="contact-nome"
-                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-                >
-                  Nome <span className="text-red-500" aria-label="obrigatório">*</span>
+                <label htmlFor="contact-nome" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                  {t('contact.form.name_label')} <span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="contact-nome"
-                  type="text"
-                  name="nome"
-                  value={fields.nome}
-                  onChange={handleChange}
-                  placeholder="O teu nome completo"
+                  id="contact-nome" type="text" name="nome" value={fields.nome} onChange={handleChange}
+                  placeholder={t('contact.form.name_placeholder')}
                   className={`form-input ${errors.nome ? 'ring-2 ring-red-400 border-red-300 dark:border-red-700' : ''}`}
-                  aria-describedby={errors.nome ? 'error-nome' : undefined}
-                  aria-invalid={!!errors.nome}
-                  autoComplete="name"
                 />
-                {/* Mensagem de erro */}
-                {errors.nome && (
-                  <p id="error-nome" className="mt-1.5 text-xs text-red-500 flex items-center gap-1" role="alert">
-                    <span aria-hidden="true">⚠</span> {errors.nome}
-                  </p>
-                )}
+                {errors.nome && <p className="mt-1.5 text-xs text-red-500">⚠ {errors.nome}</p>}
               </div>
 
-              {/* Campo: Email */}
+              {/* Campo Email */}
               <div>
-                <label
-                  htmlFor="contact-email"
-                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-                >
-                  Email <span className="text-red-500" aria-label="obrigatório">*</span>
+                <label htmlFor="contact-email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                  {t('contact.form.email_label')} <span className="text-red-500">*</span>
                 </label>
                 <input
-                  id="contact-email"
-                  type="email"
-                  name="email"
-                  value={fields.email}
-                  onChange={handleChange}
-                  placeholder="o.teu@email.com"
+                  id="contact-email" type="email" name="email" value={fields.email} onChange={handleChange}
+                  placeholder={t('contact.form.email_placeholder')}
                   className={`form-input ${errors.email ? 'ring-2 ring-red-400 border-red-300 dark:border-red-700' : ''}`}
-                  aria-describedby={errors.email ? 'error-email' : undefined}
-                  aria-invalid={!!errors.email}
-                  autoComplete="email"
                 />
-                {errors.email && (
-                  <p id="error-email" className="mt-1.5 text-xs text-red-500 flex items-center gap-1" role="alert">
-                    <span aria-hidden="true">⚠</span> {errors.email}
-                  </p>
-                )}
+                {errors.email && <p className="mt-1.5 text-xs text-red-500">⚠ {errors.email}</p>}
               </div>
 
-              {/* Campo: Mensagem */}
+              {/* Campo Mensagem */}
               <div>
-                <label
-                  htmlFor="contact-mensagem"
-                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-                >
-                  Mensagem <span className="text-red-500" aria-label="obrigatório">*</span>
+                <label htmlFor="contact-mensagem" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                  {t('contact.form.message_label')} <span className="text-red-500">*</span>
                 </label>
                 <textarea
-                  id="contact-mensagem"
-                  name="mensagem"
-                  value={fields.mensagem}
-                  onChange={handleChange}
-                  placeholder="Descreve o teu projeto, ideia ou questão..."
-                  rows={5}
+                  id="contact-mensagem" name="mensagem" value={fields.mensagem} onChange={handleChange} rows={5}
+                  placeholder={t('contact.form.message_placeholder')}
                   className={`form-input resize-none ${errors.mensagem ? 'ring-2 ring-red-400 border-red-300 dark:border-red-700' : ''}`}
-                  aria-describedby={errors.mensagem ? 'error-mensagem' : 'mensagem-hint'}
-                  aria-invalid={!!errors.mensagem}
                 />
-                {/* Contador de caracteres + hint */}
                 <div className="flex items-start justify-between mt-1.5">
                   {errors.mensagem ? (
-                    <p id="error-mensagem" className="text-xs text-red-500 flex items-center gap-1" role="alert">
-                      <span aria-hidden="true">⚠</span> {errors.mensagem}
-                    </p>
+                    <p className="text-xs text-red-500">⚠ {errors.mensagem}</p>
                   ) : (
-                    <p id="mensagem-hint" className="text-xs text-slate-400">
-                      Mínimo de 10 caracteres
-                    </p>
+                    <p className="text-xs text-slate-400">{t('contact.form.message_hint')}</p>
                   )}
-                  {/* Contador visual de caracteres */}
                   <span className={`text-xs ml-auto ${fields.mensagem.length < 10 ? 'text-slate-400' : 'text-emerald-500'}`}>
                     {fields.mensagem.length} chars
                   </span>
                 </div>
               </div>
 
-              {/* Botão de Enviar */}
+              {/* Submit */}
               <button
-                type="submit"
-                disabled={submitting}
-                className="
-                  btn-primary w-full justify-center
-                  disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-accent-600
-                "
-                aria-live="polite"
+                type="submit" disabled={submitting}
+                className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? (
-                  /* Spinner de loading */
-                  <>
-                    <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                    </svg>
-                    A enviar...
-                  </>
+                  <>{t('contact.button_sending')}</>
                 ) : (
                   <>
                     <SendIcon className="w-4 h-4" />
-                    Enviar Mensagem
+                    {t('contact.button_send')}
                   </>
                 )}
               </button>
 
-              {/* Nota de privacidade */}
               <p className="text-xs text-center text-slate-400 dark:text-slate-500">
-                🔒 Os teus dados são usados apenas para responder ao teu contacto. Nunca são partilhados.
+                🔒 {t('contact.privacy_note')}
               </p>
             </form>
           )}

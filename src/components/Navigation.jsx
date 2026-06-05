@@ -6,6 +6,7 @@
    - Nas outras páginas: aparece logo após o Header
    ═══════════════════════════════════════════════════════════════ */
 import { NavLink,useLocation } from 'react-router-dom'
+import { useTranslation, useLanguage } from '../contexts/LanguageContext.jsx'
 
 /**
  * Navigation — Barra de navegação principal do site.
@@ -14,11 +15,13 @@ import { NavLink,useLocation } from 'react-router-dom'
  * a classe "active" quando a rota corresponde.
  */
 export default function Navigation() {
+  const { t } = useTranslation();
+  const { toggleLanguage, language } = useLanguage();
   // Lista de páginas: { label, to }
   const navItems = [
-    { label: 'Currículo',  to: '/curriculo' },
-    { label: 'Contactos',  to: '/contactos' },
-    { label: 'Sobre Mim',  to: '/' },
+    { label: t('curriculum'),  to: '/curriculo' },
+    { label: t('contacts'),    to: '/contactos' },
+    { label: t('about'),       to: '/' },
   ]
 
   return (
@@ -77,6 +80,16 @@ export default function Navigation() {
               </NavLink>
             </li>
           ))}
+          {/* Language toggle button */}
+          <li>
+            <button
+              onClick={toggleLanguage}
+              className="px-3 py-2 text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              aria-label="Toggle language"
+            >
+              {language === 'pt' ? 'EN' : 'PT'}
+            </button>
+          </li>
         </ul>
       </div>
     </nav>

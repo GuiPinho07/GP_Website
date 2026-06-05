@@ -53,7 +53,7 @@ function Header() {
         {/* Links para redes sociais */}
         <div className="flex items-center gap-2">
           <a
-            href="https://linkedin.com/in/[o-teu-username]"
+            href="https://linkedin.com/in/guilhermefpinho"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-lg text-slate-500 hover:text-accent-600 dark:text-slate-400 dark:hover:text-accent-400 hover:bg-surface-100 dark:hover:bg-dark-800 transition-all duration-200"
